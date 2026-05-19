@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="3.0工具">
+<title>3.0 日常工具</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#f0f2f8;--card:#fff;--text:#1a1a2e;--text2:#7a7a9a;--border:#e4e6f0;--input:#f5f6fc;--tab:#fff;--accent:#5c6bc0;--shadow:rgba(92,107,192,0.10);}
+[data-theme="dark"]{--bg:#0d0d18;--card:#16162a;--text:#e8e8ff;--text2:#5a5a8a;--border:#22223a;--input:#1e1e32;--tab:#16162a;--accent:#7c8fff;--shadow:rgba(0,0,0,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);min-height:100vh;font-family:'Noto Serif SC',serif;padding-bottom:72px;color:var(--text);transition:background .3s,color .3s;}
+
+/* 顶部 */
+.top-bar{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px var(--shadow);}
+.top-title{font-family:'ZCOOL XiaoWei',serif;font-size:17px;letter-spacing:3px;color:var(--accent);}
+.top-actions{display:flex;gap:8px;}
+.icon-btn{background:none;border:none;font-size:19px;cursor:pointer;padding:4px 6px;border-radius:8px;transition:background .2s;}
+.icon-btn:hover{background:var(--border);}
+
+/* 底部导航 */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--tab);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -4px 20px var(--shadow);}
+.tab-item{flex:1;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;border:none;background:none;transition:all .2s;}
+.tab-icon{font-size:19px;}
+.tab-label{font-size:9px;color:var(--text2);letter-spacing:.5px;}
+.tab-item.active .tab-label{color:var(--accent);font-weight:700;}
+.tab-item.active .tab-icon{transform:scale(1.12);}
+
+/* 页面 */
+.page{display:none;padding:14px 14px 10px;max-width:700px;margin:0 auto;}
+.page.active{display:block;}
+
+/* 卡片 */
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:0 2px 18px var(--shadow);border:1px solid var(--border);}
+.card-title{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text);display:flex;align-items:center;gap:6px;}
+
+label{display:block;font-size:11px;letter-spacing:1px;margin-bottom:6px;color:var(--text2);}
+input[type="text"],textarea,select{width:100%;background:var(--input);border:1.5px solid var(--border);color:var(--text);font-family:'Noto Serif SC',serif;font-size:13px;padding:9px 12px;border-radius:10px;outline:none;transition:border-color .2s;}
+input:focus,textarea:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:80px;line-height:1.9;}
+
+.btn{width:100%;padding:12px;border:none;font-family:'Noto Serif SC',serif;font-size:13px;cursor:pointer;border-radius:12px;transition:all .2s;letter-spacing:1px;font-weight:700;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{opacity:.9;transform:translateY(-1px);}
+.btn-accent:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-outline{background:transparent;color:var(--text2);border:1.5px solid var(--border);font-weight:400;}
+.btn-sm{padding:7px 12px;width:auto;font-size:11px;border-radius:8px;}
+.btn-row{display:flex;gap:8px;}
+.btn-row .btn{flex:1;}
+
+/* ===== 早晨页 ===== */
+.weather-bar{background:linear-gradient(135deg,#5c6bc0,#7986cb);color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:13px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(92,107,192,.3);cursor:pointer;}
+.weather-icon{font-size:36px;}
+.weather-temp{font-size:26px;font-weight:700;font-family:'ZCOOL XiaoWei',serif;}
+.weather-desc{font-size:11px;opacity:.85;margin-top:2px;}
+.weather-loc{font-size:10px;opacity:.65;margin-top:3px;}
+
+/* 古诗卡 */
+.poem-card{background:linear-gradient(135deg,#1a1a2e,#2d2d4e);color:#fff;border-radius:16px;padding:18px 18px 14px;margin-bottom:13px;position:relative;overflow:hidden;}
+.poem-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(255,215,0,.15),transparent);border-radius:50%;}
+.poem-badge{font-size:10px;letter-spacing:2px;color:rgba(255,215,0,.7);margin-bottom:10px;}
+.poem-content{font-size:15px;line-height:2.2;letter-spacing:2px;text-align:center;color:#fff;font-weight:700;}
+.poem-author{font-size:10px;color:rgba(255,215,0,.7);text-align:right;margin-top:8px;}
+.poem-progress{height:2px;background:rgba(255,255,255,.15);border-radius:2px;margin-top:12px;overflow:hidden;}
+.poem-progress-bar{height:100%;background:rgba(255,215,0,.6);border-radius:2px;width:0%;transition:width 1s linear;}
+.poem-actions{di
